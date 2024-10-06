@@ -1,0 +1,60 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": { "text": "Homicide Rates by Country (1990-2021)" },
+    "data": {
+      "url": "https://raw.githubusercontent.com/ianllow/FIT3179A2/main/homicide_data.csv",
+      "format": { "type": "csv" }
+    },
+    "params": [
+      {
+        "name": "year_selection",
+        "value": 2021,
+        "bind": {
+          "input": "range",
+          "min": 1990,
+          "max": 2021,
+          "step": 1,
+          "name": "Select Year"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "calculate": "toNumber(datum.Year)",
+        "as": "Year"
+      },
+      {
+        "filter": "datum.Year == year_selection"
+      },
+      {
+        "calculate": "year_selection",
+        "as": "CurrentYear"
+      }
+    ],
+    "mark": "bar",
+    "encoding": {
+      "x": {
+        "field": "Country",
+        "type": "nominal",
+        "axis": {
+          "title": "Country",
+          "labelAngle": -45
+        }
+      },
+      "y": {
+        "field": "Homicide_Rate",
+        "type": "quantitative",
+        "axis": {
+          "title": "Homicide Rate (per 100,000 people)"
+        }
+      },
+      "tooltip": [
+        { "field": "Country", "type": "nominal", "title": "Country" },
+        { "field": "CurrentYear", "type": "quantitative", "title": "Year" },
+        { "field": "Homicide_Rate", "type": "quantitative", "title": "Homicide Rate" },
+        { "field": "Homicide_Count", "type": "quantitative", "title": "Homicide Count" }
+      ]
+    },
+    "width": 800,
+    "height": 400
+  }
